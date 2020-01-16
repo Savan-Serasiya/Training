@@ -75,9 +75,8 @@ function displayData(){
                                <td>${studentDetails[i].englishMarks}</td>
                                <td>${studentDetails[i].average}</td>
                                <td>${studentDetails[i].passingYear}</td>
-                               <td>${studentDetails[i].createdDate}</td>
-                               
-                            </tr>
-                            `; 
+                               <td>${studentDetails[i].createdDate}</td>  
+                               </tr>
+                               `; 
     }
 }
