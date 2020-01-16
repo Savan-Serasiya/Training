@@ -3,6 +3,7 @@ var mathsMarks = document.forms['formStudent']['mathsMarks'];
 var englishMarks = document.forms['formStudent']['englishMarks'];
 var passingYear = document.forms['formStudent']['passingYear'];
 var tableBody = document.getElementById('tbody');
+var studentDetails = [];
 
 var Student = function(studentName,mathsMarks,englishMarks,average,passingYear,createdDate){
     this.studentName = studentName;
@@ -13,6 +14,15 @@ var Student = function(studentName,mathsMarks,englishMarks,average,passingYear,c
     this.createdDate = createdDate;
 }
 
+/* if(JSON.parse(localStorage.getItem('Student'))==''){
+    console.log('heweew...');
+    
+}else{
+    console.log('here....');
+    
+    studentDetails = JSON.parse(localStorage.getItem('Student'));   
+}
+ */
 document.forms['formStudent']['submitButton'].addEventListener('click',function(){
     if(studentName.value === ''){
         alert('Invalid Student Name');
@@ -31,21 +41,43 @@ document.forms['formStudent']['submitButton'].addEventListener('click',function(
     }
 });
 
-function insertData(){
-    var today = new Date();
-    var now = today.getDate()+'/'+ today.getMonth()+1 +'/'+ today.getFullYear();
-    var average = (parseInt(mathsMarks.value)+parseInt(englishMarks.value))/2;
-    tableBody.innerHTML += `<tr><td>${studentName.value}</td>
-                               <td>${mathsMarks.value}</td>
-                               <td>${englishMarks.value}</td>
-                               <td>${average}</td>
-                               <td>${passingYear.value}</td>
-                               <td>${now}</td>
-                            </tr>
-                            `;
-                            
-                            var student1 = new Student(studentName.value,mathsMarks.value,englishMarks.value,average,passingYear.value,now);
-                            console.log(student1);
-                            
+if(localStorage.getItem('Student')==null){
+    localStorage.setItem('Student',studentDetails);
+}
+else{
+    studentDetails = JSON.parse(localStorage.getItem('Student'));
+    displayData();
+
 }
 
+
+function insertData(){
+    
+    var today = new Date();
+    var now = today.getDate()+'/'+ today.getMonth()+1 +'/'+ today.getFullYear();
+
+    var average = (parseInt(mathsMarks.value)+parseInt(englishMarks.value))/2;
+    //var student1 = new Student(studentName.value,mathsMarks.value,englishMarks.value,average,passingYear.value,now);
+    studentDetails.push(new Student(studentName.value,mathsMarks.value,englishMarks.value,average,passingYear.value,now));
+    localStorage.setItem('Student',JSON.stringify(studentDetails));
+
+    console.log(JSON.parse(localStorage.getItem('Student')));             
+
+    displayData();
+
+}
+
+function displayData(){
+
+    for(var i=0;i<studentDetails.length;i++){
+        tableBody.innerHTML += `<tr><td>${studentDetails[i].studentName}</td>
+                               <td>${studentDetails[i].mathsMarks}</td>
+                               <td>${studentDetails[i].englishMarks}</td>
+                               <td>${studentDetails[i].average}</td>
+                               <td>${studentDetails[i].passingYear}</td>
+                               <td>${studentDetails[i].createdDate}</td>
+                               
+                            </tr>
+                            `; 
+    }
+}
