@@ -14,15 +14,6 @@ var Student = function(studentName,mathsMarks,englishMarks,average,passingYear,c
     this.createdDate = createdDate;
 }
 
-/* if(JSON.parse(localStorage.getItem('Student'))==''){
-    console.log('heweew...');
-    
-}else{
-    console.log('here....');
-    
-    studentDetails = JSON.parse(localStorage.getItem('Student'));   
-}
- */
 document.forms['formStudent']['submitButton'].addEventListener('click',function(){
     if(studentName.value === ''){
         alert('Invalid Student Name');
@@ -55,20 +46,15 @@ function insertData(){
     
     var today = new Date();
     var now = today.getDate()+'/'+ today.getMonth()+1 +'/'+ today.getFullYear();
-
     var average = (parseInt(mathsMarks.value)+parseInt(englishMarks.value))/2;
-    //var student1 = new Student(studentName.value,mathsMarks.value,englishMarks.value,average,passingYear.value,now);
     studentDetails.push(new Student(studentName.value,mathsMarks.value,englishMarks.value,average,passingYear.value,now));
     localStorage.setItem('Student',JSON.stringify(studentDetails));
-
     console.log(JSON.parse(localStorage.getItem('Student')));             
-
     displayData();
-
 }
 
 function displayData(){
-
+    tableBody.innerHTML='';
     for(var i=0;i<studentDetails.length;i++){
         tableBody.innerHTML += `<tr><td>${studentDetails[i].studentName}</td>
                                <td>${studentDetails[i].mathsMarks}</td>
